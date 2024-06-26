@@ -63,3 +63,8 @@ vim.keymap.set("n", "<leader>x", "x :!chmod +x %<CR>", { desc = "make file execu
 vim.keymap.set("n", "<C-f>", ":silent !tmux neww tmux-sessionizer", { desc = "tmux-sessionizer" })
 
 vim.keymap.set({ "n", "i" }, "<C-s>", ":w <CR>", { desc = "save file" })
+vim.keymap.set("n", "<C-d>", "<C-d>zz")
+vim.keymap.set("n", "<C-u>", "<C-u>zz")
+vim.keymap.set("n", "<n>", "nzzzv")
+vim.keymap.set("n", "<N>", "Nzzzv")
+vim.keymap.set({ "n", "v" }, "<leader>d", '"_d')
