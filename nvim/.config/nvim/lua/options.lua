@@ -13,7 +13,7 @@ vim.cmd("set splitright")
 vim.cmd("set splitkeep=cursor")
 vim.g.mapleader = " "
 
-vim.opt.clipboard = "unnamedplus"
+-- vim.opt.clipboard = "unnamedplus"
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -68,3 +68,13 @@ vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "<n>", "nzzzv")
 vim.keymap.set("n", "<N>", "Nzzzv")
 vim.keymap.set({ "n", "v" }, "<leader>d", '"_d')
+vim.keymap.set("n", "J", ":m .+1<CR>==")
+vim.keymap.set("n", "K", ":m .-2<CR>==")
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+-- nnoremap <A-j> :m .+1<CR>==
+-- nnoremap <A-k> :m .-2<CR>==
+-- inoremap <A-j> <Esc>:m .+1<CR>==gi
+-- inoremap <A-k> <Esc>:m .-2<CR>==gi
+-- vnoremap <A-j> :m '>+1<CR>gv=gv
+-- vnoremap <A-k> :m '<-2<CR>gv=gv
