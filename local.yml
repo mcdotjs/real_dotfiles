@@ -22,6 +22,7 @@
         - sshfs
   
   - name: Cloning .dotfiles
+    become_user: mirec
     ansible.builtin.git:
       repo: 'https://github.com/mcdotjs/real_dotfiles.git'
       dest: "{{ lookup('env', 'HOME') }}/dotfiles-ansible"
