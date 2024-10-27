@@ -1,0 +1,33 @@
+---
+
+- hosts: localhost
+  connection: local
+  become: true
+
+  pre_tasks:
+  - name: install updates
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  tasks:
+  - name: install htop, tmux and other packages
+    package: 
+      name: 
+        - htop
+        - tmux
+        - stow
+        - sshfs
+  
+  - name: Cloning .dotfiles
+    ansible.builtin.git:
+      repo: 'git@github.com:mcdotjs/real_dotfiles.git'
+      dest: "{{ lookup('env', 'HOME') }}/.dotfiles-ansible"
+      recursive: yes
+      update: yes
+      accept_hostkey: yes
+    tags:
+      - dotfiles
+
