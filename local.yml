@@ -6,7 +6,7 @@
   vars:
     repo_url: "{{ repo_url }}"
     dest_dir: "{{ dest_dir }}"
-
+    user: "{{ user }}"
 
   pre_tasks:
   - name: install updates
@@ -32,7 +32,7 @@
         - sshfs
   
   - name: Cloning .dotfiles
-    become_user: mirec
+    become_user: "{{ user }}"
     ansible.builtin.git:
       repo: "{{ repo_url }}"
       dest: "{{ dest_dir }}"
