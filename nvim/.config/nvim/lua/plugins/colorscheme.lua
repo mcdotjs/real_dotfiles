@@ -38,6 +38,6 @@ return {
 			---@param colors ColorScheme
 			on_highlights = function(highlights, colors) end,
 		})
-		vim.cmd([[colorscheme tokyonight-storm]])
+    --vim.cmd([[colorscheme tokyonight-storm]])
 	end,
 }

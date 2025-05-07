@@ -20,6 +20,7 @@ return {
 				html = { "prettier" },
 				scss = { "prettier" },
 				css = { "prettier" },
+				json = { "prettier" },
 			},
 		})
 

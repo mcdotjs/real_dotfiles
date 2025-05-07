@@ -12,8 +12,7 @@ vim.cmd("set hlsearch")
 vim.cmd("set splitright")
 vim.cmd("set splitkeep=cursor")
 vim.g.mapleader = " "
-
--- vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard = "unnamedplus"
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
@@ -78,3 +77,6 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 -- inoremap <A-k> <Esc>:m .-2<CR>==gi
 -- vnoremap <A-j> :m '>+1<CR>gv=gv
 -- vnoremap <A-k> :m '<-2<CR>gv=gv
+vim.keymap.set("n", "<space><space>x", "<cmd>source %<CR>")
+vim.keymap.set("n", "<space>x", ":.lua<CR>")
+vim.keymap.set("v", "<space>x", ":lua<CR>")
