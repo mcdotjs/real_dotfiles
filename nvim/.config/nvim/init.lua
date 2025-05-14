@@ -54,11 +54,11 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- })
 
 vim.diagnostic.config({
-  virtual_text = true,     -- Enable virtual text
-  signs = true,            -- Enable signs
-  underline = true,        -- Enable underline
+  virtual_text = true,      -- Enable virtual text
+  signs = true,             -- Enable signs
+  underline = true,         -- Enable underline
   update_in_insert = false, -- Do not update diagnostics in insert mode
-  severity_sort = true,    -- Sort diagnostics by severity
+  severity_sort = true,     -- Sort diagnostics by severity
 })
 
 --plugins - are loaded automaticallz from local lua/plugins
