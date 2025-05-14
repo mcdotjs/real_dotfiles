@@ -10,10 +10,9 @@ return {
       local builtin = require("telescope.builtin")
       local ivy = require("telescope.themes").get_ivy({})
       local dropdown = require("telescope.themes").get_dropdown({})
+
       vim.keymap.set("n", "<leader>p", builtin.git_files, {})
-      vim.keymap.set("n", "<C-p>", function()
-        builtin.find_files(ivy)
-      end)
+      vim.keymap.set("n", "<C-p>", builtin.find_files)
       vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
       vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
       vim.keymap.set("n", "<leader>fd", builtin.diagnostics, {})
@@ -29,6 +28,9 @@ return {
       vim.keymap.set("n", "<leader>sn", function()
         builtin.find_files({ cwd = vim.fn.stdpath("config") })
       end, { desc = "[S]earch in [N]eovim config from everywheeree" })
+      vim.keymap.set("n", "<leader>ep", function()
+        builtin.find_files({ cwd = vim.fs.joinpath(vim.fn.stdpath("data"), "lazy") })
+      end, { desc = "[e]dit [p]ackages" })
     end,
   },
   {
@@ -42,9 +44,16 @@ return {
               -- even more opts
             }),
           },
+          fzf = {},
+        },
+        pickers = {
+          find_files = {
+            theme = "ivy",
+          },
         },
       })
       require("telescope").load_extension("ui-select")
+      require("telescope").load_extension("fzf")
     end,
   },
 }
