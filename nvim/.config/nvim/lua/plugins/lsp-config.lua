@@ -15,9 +15,10 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
-
+    blinkDependencies = { "saghen/blink.cmp" },
     dependencies = {
       "folke/lazydev.nvim",
+
       ft = "lua", -- only load on lua files
       opts = {
         library = {
@@ -29,18 +30,15 @@ return {
     },
     config = function()
       local lspconfig = require("lspconfig")
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      local capabilitiesDefault = require("cmp_nvim_lsp").default_capabilities()
-      capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+      local capabilitiesBlink = require("blink.cmp").get_lsp_capabilities()
 
-      lspconfig.lua_ls.setup({})
+      lspconfig.lua_ls.setup({ capabilities = capabilitiesBlink })
 
       lspconfig.ts_ls.setup({
-        capabilities = capabilities,
+        capabilities = capabilitiesBlink,
         settings = {
           virtual_text = true,
         },
-        --			cmd = lsp_containers.command("tsserver"),
         filetypes = { "javascript", "typescript", "vue" },
         init_options = {
           plugins = {
@@ -54,15 +52,15 @@ return {
         },
       })
 
-      lspconfig.tailwindcss.setup({})
-      lspconfig.prismals.setup({})
-      lspconfig.cssls.setup({})
+      lspconfig.tailwindcss.setup({ capabilities = capabilitiesBlink })
+      lspconfig.prismals.setup({ capabilities = capabilitiesBlink })
+      lspconfig.cssls.setup({ capabilities = capabilitiesBlink })
       lspconfig.html.setup({
         filetypes = { "vue" },
-        capabilities = capabilitiesDefault,
+        capabilities = capabilitiesBlink,
       })
-      lspconfig.pylsp.setup({})
-      lspconfig.gopls.setup({})
+      lspconfig.pylsp.setup({ capabilities = capabilitiesBlink })
+      lspconfig.gopls.setup({ capabilities = capabilitiesBlink })
       --Keymaps
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {})
