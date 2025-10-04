@@ -5,7 +5,7 @@ return {
     local configs = require("nvim-treesitter.configs")
     configs.setup({
       auto_install = true,
-      ensure_installed = { "vue", "lua", "javascript", "html", "php", "scss", "css" },
+      ensure_installed = { "elixir", "eex", "heex", "cpp", "vue", "lua", "javascript", "html", "php", "scss", "css" },
       sync_install = false,
       highlight = { enable = true },
       indent = { enable = true },

@@ -9,7 +9,7 @@ return {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "volar", "ts_ls", "tailwindcss", "cssls", "html", "gopls" },
+        ensure_installed = { "lua_ls", "ts_ls", "tailwindcss", "cssls", "html", "gopls", "clangd", "elixirls" },
       })
     end,
   },
@@ -29,11 +29,24 @@ return {
       },
     },
     config = function()
+      vim.diagnostic.config({
+        virtual_text = true,      -- Enable virtual text
+        signs = true,             -- Enable signs
+        underline = true,         -- Enable underline
+        update_in_insert = false, -- Do not update diagnostics in insert mode
+        severity_sort = true,     -- Sort diagnostics by severity
+        float = {
+          border = "rounded",
+        },
+      })
       local lspconfig = require("lspconfig")
       local capabilitiesBlink = require("blink.cmp").get_lsp_capabilities()
-
+      capabilitiesBlink.window = {
+        completion = {
+          border = "rounded",
+        },
+      }
       lspconfig.lua_ls.setup({ capabilities = capabilitiesBlink })
-
       lspconfig.ts_ls.setup({
         capabilities = capabilitiesBlink,
         settings = {
@@ -46,21 +59,65 @@ return {
               name = "@vue/typescript-plugin",
               location = os.getenv("HOME")
                   .. "/.nvm/versions/node/v20.11.1/lib/node_modules/@vue/typescript-plugin",
+              --.. "/.nvm/versions/node/v22.16.0/bin/lib/node_modules/@vue/typescript-plugin",
               languages = { "javascript", "typescript", "vue" },
+            },
+          },
+        },
+        format = {
+          template = {
+            wrapattributes = "force-expand-multiline",
+          },
+        },
+      })
+      --
+      lspconfig.tailwindcss.setup({ capabilities = capabilitiesBlink })
+      lspconfig.prismals.setup({ capabilities = capabilitiesBlink })
+      lspconfig.cssls.setup({ capabilities = capabilitiesBlink })
+      lspconfig.html.setup({
+        filetypes = { "vue", "html" },
+        capabilities = capabilitiesBlink,
+        settings = {
+          html = {
+            format = {
+              enable = true,
+              wrapAttributes = "force-expand-multiline",
+              --wrapLineLength = 80, -- Very short to force wrapping
+              --indentInnerHtml = true,
+              -- indentHandlebars = false,
+              -- endWithNewline = false,
+              insertFinalNewline = true,
+              maxPreserveNewLines = 2,
+              vueIndentScriptAndStyle = true,
+              bracketSpacing = true,
             },
           },
         },
       })
 
-      lspconfig.tailwindcss.setup({ capabilities = capabilitiesBlink })
-      lspconfig.prismals.setup({ capabilities = capabilitiesBlink })
-      lspconfig.cssls.setup({ capabilities = capabilitiesBlink })
-      lspconfig.html.setup({
-        filetypes = { "vue" },
-        capabilities = capabilitiesBlink,
-      })
       lspconfig.pylsp.setup({ capabilities = capabilitiesBlink })
       lspconfig.gopls.setup({ capabilities = capabilitiesBlink })
+      lspconfig.elixirls.setup({
+        -- cmd = { "/home/mirko/.asdf/shims/elixir" },
+        cmd = { "elixir-ls" },
+        capabilities = capabilitiesBlink,
+      })
+      lspconfig.clangd.setup({
+        capabilities = capabilitiesBlink,
+
+        cmd = {
+          "clangd",
+          "--background-index",
+          "--clang-tidy",
+          "--header-insertion=iwyu",
+          "--completion-style=detailed",
+          "--function-arg-placeholders",
+          -- NOTE: clangd format file
+          --"--fallback-style=llvm",
+        },
+      })
+      lspconfig.glsl_analyzer.setup({ capabilities = capabilitiesBlink })
+
       --Keymaps
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "gD", vim.lsp.buf.declaration, {})

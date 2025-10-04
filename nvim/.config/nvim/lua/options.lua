@@ -68,9 +68,9 @@ vim.keymap.set("n", "<n>", "nzzzv")
 vim.keymap.set("n", "<N>", "Nzzzv")
 vim.keymap.set({ "n", "v" }, "<leader>d", '"_d')
 vim.keymap.set("n", "J", ":m .+1<CR>==")
-vim.keymap.set("n", "K", ":m .-2<CR>==")
+vim.keymap.set("n", "U", ":m .-2<CR>==")
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
+vim.keymap.set("v", "U", ":m '<-2<CR>gv=gv")
 -- nnoremap <A-j> :m .+1<CR>==
 -- nnoremap <A-k> :m .-2<CR>==
 -- inoremap <A-j> <Esc>:m .+1<CR>==gi

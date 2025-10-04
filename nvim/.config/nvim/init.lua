@@ -51,7 +51,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       return
     end
 
-    if client.supports_method("textDocument/formatting") then
+    if client.supports_method("textDocument/formatting") and vim.bo.filetype ~= "vue" then
       -- here we are using current buffer
       vim.api.nvim_create_autocmd("BufWritePre", {
         buffer = args.buf,
@@ -73,17 +73,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- 	end,
 -- })
 
-vim.diagnostic.config({
-  virtual_text = true,      -- Enable virtual text
-  signs = true,             -- Enable signs
-  underline = true,         -- Enable underline
-  update_in_insert = false, -- Do not update diagnostics in insert mode
-  severity_sort = true,     -- Sort diagnostics by severity
-})
+-- vim.diagnostic.config({
+--   virtual_text = true,      -- Enable virtual text
+--   signs = true,             -- Enable signs
+--   underline = true,         -- Enable underline
+--   update_in_insert = false, -- Do not update diagnostics in insert mode
+--   severity_sort = true,     -- Sort diagnostics by severity
+--   float = {
+--     border = "rounded",
+--   },
+-- })
 
 --plugins - are loaded automaticallz from local lua/plugins
 require("options")
-vim.cmd([[hi @function.builtin guifg=pink]])
+--vim.cmd([[hi @function.builtin guifg=pink]])
 --vim.cmd([[hi @variable.typescript guifg=red]])
 require("lazy").setup("plugins")
 require("oil").setup()
