@@ -9,7 +9,18 @@ return {
     "williamboman/mason-lspconfig.nvim",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "ts_ls", "tailwindcss", "cssls", "html", "gopls", "clangd", "elixirls" },
+        ensure_installed = {
+          "kotlin_language_server",
+          "lua_ls",
+          "ts_ls",
+          "tailwindcss",
+          "cssls",
+          "html",
+          "gopls",
+          "clangd",
+          "elixirls",
+          "htmx"
+        },
       })
     end,
   },
@@ -30,24 +41,25 @@ return {
     },
     config = function()
       vim.diagnostic.config({
-        virtual_text = true,      -- Enable virtual text
-        signs = true,             -- Enable signs
-        underline = true,         -- Enable underline
+        virtual_text = true,  -- Enable virtual text
+        signs = true,         -- Enable signs
+        underline = true,     -- Enable underline
         update_in_insert = false, -- Do not update diagnostics in insert mode
-        severity_sort = true,     -- Sort diagnostics by severity
+        severity_sort = true, -- Sort diagnostics by severity
         float = {
           border = "rounded",
         },
       })
-      local lspconfig = require("lspconfig")
+      --local lspconfig = vim.lsp.config()
+      --require("lspconfig")
       local capabilitiesBlink = require("blink.cmp").get_lsp_capabilities()
       capabilitiesBlink.window = {
         completion = {
           border = "rounded",
         },
       }
-      lspconfig.lua_ls.setup({ capabilities = capabilitiesBlink })
-      lspconfig.ts_ls.setup({
+      vim.lsp.config("lua_ls", { capabilities = capabilitiesBlink })
+      vim.lsp.config("ts_ls", {
         capabilities = capabilitiesBlink,
         settings = {
           virtual_text = true,
@@ -71,10 +83,10 @@ return {
         },
       })
       --
-      lspconfig.tailwindcss.setup({ capabilities = capabilitiesBlink })
-      lspconfig.prismals.setup({ capabilities = capabilitiesBlink })
-      lspconfig.cssls.setup({ capabilities = capabilitiesBlink })
-      lspconfig.html.setup({
+      vim.lsp.config("tailwindcss", { capabilities = capabilitiesBlink })
+      --lspconfig.prismals.setup({ capabilities = capabilitiesBlink })
+      vim.lsp.config("cssls", { capabilities = capabilitiesBlink })
+      vim.lsp.config("html", {
         filetypes = { "vue", "html" },
         capabilities = capabilitiesBlink,
         settings = {
@@ -95,14 +107,42 @@ return {
         },
       })
 
-      lspconfig.pylsp.setup({ capabilities = capabilitiesBlink })
-      lspconfig.gopls.setup({ capabilities = capabilitiesBlink })
-      lspconfig.elixirls.setup({
+      vim.lsp.config("pylsp", { capabilities = capabilitiesBlink })
+      vim.lsp.config("gopls", { capabilities = capabilitiesBlink })
+      vim.lsp.config("htmx", { capabilities = capabilitiesBlink })
+      vim.lsp.config("elixirls", {
         -- cmd = { "/home/mirko/.asdf/shims/elixir" },
         cmd = { "elixir-ls" },
         capabilities = capabilitiesBlink,
       })
-      lspconfig.clangd.setup({
+
+      vim.lsp.config("kotlin_language_server", {
+        capabilities = capabilitiesBlink,
+        init_options = {
+          storagePath = vim.fn.stdpath("data") .. "/kotlin-language-server",
+        },
+        root_dir = function(fname)
+          return vim.fs.root(fname, {
+            "settings.gradle.kts",
+            "settings.gradle",
+            "build.gradle.kts",
+            "build.gradle",
+            "pom.xml",
+            ".git",
+          }) or vim.fs.dirname(fname) -- Just use the file's directory
+        end,                     -- settings = {
+        kotlin = {
+          compiler = {
+            jvm = {
+              target = "17", -- or your Java version
+            },
+          },
+        },
+        cmd_env = {
+          JAVA_HOME = "/home/mirko/.asdf/installs/java/temurin-21.0.8+9.0.LTS",
+        },
+      })
+      vim.lsp.config("clangd", {
         capabilities = capabilitiesBlink,
 
         cmd = {
@@ -111,12 +151,12 @@ return {
           "--clang-tidy",
           "--header-insertion=iwyu",
           "--completion-style=detailed",
-          "--function-arg-placeholders",
+          "--function-arg-placeholders=true",
           -- NOTE: clangd format file
           --"--fallback-style=llvm",
         },
       })
-      lspconfig.glsl_analyzer.setup({ capabilities = capabilitiesBlink })
+      vim.lsp.config("glsl_analyzer", { capabilities = capabilitiesBlink })
 
       --Keymaps
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})

@@ -1,6 +1,8 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 local augroup = vim.api.nvim_create_augroup
 local MoveNCodeGroup = augroup("moveNcode", {})
+
+--The `require('lspconfig')` "framework" is deprecated, use vim.lsp.config (see :help lspconfig-nvim-0.11) instead.
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -11,6 +13,9 @@ if not vim.loop.fs_stat(lazypath) then
     lazypath,
   })
 end
+
+vim.env.JAVA_HOME = "/home/mirko/.asdf/installs/java/temurin-21.0.8+9.0.LTS"
+
 vim.opt.rtp:prepend(lazypath)
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight when yanking (copying) text",
@@ -51,15 +56,15 @@ vim.api.nvim_create_autocmd("LspAttach", {
       return
     end
 
-    if client.supports_method("textDocument/formatting") and vim.bo.filetype ~= "vue" then
-      -- here we are using current buffer
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        buffer = args.buf,
-        callback = function()
-          vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
-        end,
-      })
-    end
+    -- if client.supports_method("textDocument/formatting") and vim.bo.filetype ~= "vue" then
+    --   -- here we are using current buffer
+    --   vim.api.nvim_create_autocmd("BufWritePre", {
+    --     buffer = args.buf,
+    --     callback = function()
+    --       vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
+    --     end,
+    --   })
+    -- end
   end,
 })
 -- vim.api.nvim_create_autocmd("BufEnter", {
